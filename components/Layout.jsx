@@ -1,8 +1,12 @@
 import Head from 'next/head';
 import Header from './header/Header';
 import Footer from './footer/Footer';
+import { useContext } from 'react';
+import { Store } from '../utils/Store';
 
 function Layout({ title, children }) {
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
   return (
     <>
       <Head>
@@ -11,7 +15,7 @@ function Layout({ title, children }) {
 
       <div className="flex min-h-screen flex-col justify-between">
         <header>
-          <Header />
+          <Header cart={cart} />
         </header>
 
         <main className="container m-auto mt-4 px-4">{children}</main>
