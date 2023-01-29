@@ -1,6 +1,9 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Header({ cart, carItemsCount }) {
+  const { status, data: session } = useSession();
+
   return (
     <nav className="flex justify-between h-12 items-center px-10 shadow-md">
       <Link href="/" className="text-lg font-bold">
@@ -21,10 +24,15 @@ export default function Header({ cart, carItemsCount }) {
             </span>
           )}
         </Link>
-
-        <Link href="/login" className="p-2">
-          Login/Register
-        </Link>
+        {status === 'loading' ? (
+          'Loading'
+        ) : session?.user ? (
+          session.user.name
+        ) : (
+          <Link href="/login" className="p-2">
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );
